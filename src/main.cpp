@@ -1,9 +1,7 @@
 #include <config.h>
 #include <Arduino.h>
 #include <ESP32-HUB75-MatrixPanel-I2S-DMA.h>
-#include <FastLED.h>
 
-#include <Wire.h>
 #include <WiFi.h>
 #include <SpotifyEsp32.h>
 #include "FS.h"
@@ -23,13 +21,13 @@ uint16_t getClockDigitColor(int hour, int minute);
 #ifndef DISABLE_CALENDAR
 String fetchCalendar();
 #endif
-void drawClock(String clockText, uint16_t bodyColor, int yOffset = 39);
+void drawClock(const String &clockText, uint16_t bodyColor, int yOffset = 39);
 #ifndef DISABLE_CALENDAR
 int measureTextHeight(const String &text, const GFXfont *font);
 int countLines(const String &text);
-void drawCalendarLines(String calendarText, uint16_t bodyColor, int startY, int lineHeight);
+void drawCalendarLines(const String &calendarText, uint16_t bodyColor, int startY, int lineHeight);
 #endif
-int downloadImage(String imageUrl);
+int downloadImage(const String &imageUrl);
 int drawMCU(JPEGDRAW *pDraw);
 void drawJPEG(const char *filename, int xpos, int ypos);
 void setup();
@@ -192,7 +190,7 @@ int countLines(const String &text)
     return count;
 }
 
-void drawCalendarLines(String calendarText, uint16_t bodyColor, int startY, int lineHeight)
+void drawCalendarLines(const String &calendarText, uint16_t bodyColor, int startY, int lineHeight)
 {
     dma_display->setTextSize(1);
     dma_display->setTextWrap(false);
@@ -217,7 +215,7 @@ void drawCalendarLines(String calendarText, uint16_t bodyColor, int startY, int 
 }
 #endif
 
-void drawClock(String clockText, uint16_t bodyColor, int yOffset)
+void drawClock(const String &clockText, uint16_t bodyColor, int yOffset)
 {
     int xOffset = 3;
 
@@ -230,7 +228,7 @@ void drawClock(String clockText, uint16_t bodyColor, int yOffset)
     dma_display->printf(clockText.c_str());
 }
 
-int downloadImage(String imageUrl)
+int downloadImage(const String &imageUrl)
 {
     USBSerial.println("Downloading image... " + imageUrl);
     HTTPClient http;
@@ -240,7 +238,6 @@ int downloadImage(String imageUrl)
     if (!f)
     {
         USBSerial.println("Error opening file");
-        f.close();
         return -1;
     }
 
@@ -292,7 +289,7 @@ void drawJPEG(const char *filename, int xpos, int ypos)
     File file = LittleFS.open(filename, "r");
     if (!file)
     {
-        Serial.println("Failed to open file for reading");
+        USBSerial.println("Failed to open file for reading");
         return;
     }
 
@@ -300,7 +297,7 @@ void drawJPEG(const char *filename, int xpos, int ypos)
     uint8_t *buffer = (uint8_t *)malloc(fileSize);
     if (!buffer)
     {
-        Serial.println("Not enough memory to load image");
+        USBSerial.println("Not enough memory to load image");
         file.close();
         return;
     }
@@ -326,15 +323,11 @@ void setup()
     // Initialize led matrix
     USBSerial.println(F("Led Matrix begin"));
     HUB75_I2S_CFG mxconfig(
-        64,      // module width
-        64,      // module height
-        1,       // Chain length
-        WF2_PINS // pin mapping for port X1
-    );
+        64,
+        64,
+        1,
+        WF2_PINS);
     mxconfig.driver = HUB75_I2S_CFG::ICN2038S;
-
-    // some panels need a  reversed clockpulse I first encountered
-    // it in batch may 2021 PH3 64*64 V4.1 HX
     mxconfig.clkphase = false;
     mxconfig.latch_blanking = 4;
     mxconfig.i2sspeed = HUB75_I2S_CFG::HZ_10M;
@@ -343,12 +336,12 @@ void setup()
     // Display Setup
     dma_display = new MatrixPanel_I2S_DMA(mxconfig);
     dma_display->begin();
-    dma_display->setBrightness8(30); // 0-255
+    dma_display->setBrightness8(30);
     dma_display->clearScreen();
     dma_display->flipDMABuffer();
 
     // Initialize LittleFS
-    USBSerial.print(F("LittlFS begin: "));
+    USBSerial.print(F("LittleFS begin: "));
     if (!LittleFS.begin(true))
     {
         USBSerial.println(F("failed"));
@@ -426,7 +419,7 @@ void setup()
         USBSerial.println(F("OK"));
     }
 
-    //Draw clock
+    // Draw clock
     char datestring[6];
     snprintf_P(datestring,
                countof(datestring),
@@ -524,7 +517,7 @@ void loop()
 
         if (!getLocalTime(&timeinfo))
         {
-            Serial.println(F("Failed to obtain time"));
+            USBSerial.println(F("Failed to obtain time"));
         }
 
         char datestring[6];
