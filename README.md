@@ -171,6 +171,18 @@ Contributions welcome! Please ensure:
 - Code follows existing style (const correctness, USBSerial debugging)
 - Changes are tested on real hardware before PR
 
+## Libraries & Resources
+
+### Display & Graphics
+- [ESP32-HUB75-MatrixPanel-I2S-DMA](https://github.com/mrfaptastic/ESP32-HUB75-MatrixPanel-I2S-DMA) — HUB75 LED matrix driver library
+- [JPEGDEC](https://github.com/bitbank2/JPEGDEC) — JPEG decoder for embedded systems
+
+### API & Connectivity
+- [SpotifyEsp32](https://github.com/jetcitycomet/SpotifyEsp32) — Spotify API client library for ESP32
+
+### External APIs
+- [Spotify Web API](https://developer.spotify.com/documentation/web-api) — Spotify playback state and metadata
+
 ---
 
 **Enjoy your Spotify Clock!** 🎵✨
