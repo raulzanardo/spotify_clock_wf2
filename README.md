@@ -1,8 +1,6 @@
 # 🎵 Spotify Clock WF2
 
-
-
-A real-time display system that shows your currently playing Spotify track on a 64×64 LED matrix, with beautiful color-temperature-aware clock animations and optional calendar integration.
+A real-time display system that shows your currently playing Spotify track on a 64×64 LED matrix, with color-temperature-aware clock animations and optional calendar integration.
 
 ## Features
 
@@ -23,7 +21,7 @@ A real-time display system that shows your currently playing Spotify track on a 
 
 - **ESP32-S3** microcontroller with USB support and 20+ available GPIO pins
 - **HUB75 LED Matrix Driver** (onboard on HD-WF2, or external daughterboard)
-- **64×64 RGB LED Matrix Panel** (HUB75 interface, standard module)
+- **64×64 RGB LED Matrix Panel** (HUB75 interface, standard module that use nornal shift-registers, the S-PWM are not supported by the lib yet)
 - WiFi connectivity (built-in to ESP32-S3)
 
 ### Pin Configuration (WF2)
@@ -79,37 +77,9 @@ Edit `include/config.h` and add:
 - **WIFI_SSID** & **WIFI_PASS**: Your WiFi network credentials
 - **CALENDAR_URL** (optional): HTTP endpoint that returns newline-separated calendar events
 
-### 4. Build and Upload
+### 4. Build, Upload & Monitor
 
-```bash
-platformio run --target upload
-```
-
-### 5. Monitor Serial Output
-
-```bash
-platformio device monitor
-```
-
-## Features Configuration
-
-You can disable certain Spotify API features to reduce memory usage:
-
-```cpp
-// In include/config.h, uncomment to disable:
-#define DISABLE_AUDIOBOOKS
-#define DISABLE_CATEGORIES
-#define DISABLE_CHAPTERS
-#define DISABLE_EPISODES
-#define DISABLE_GENRES
-#define DISABLE_MARKETS
-#define DISABLE_PLAYLISTS
-#define DISABLE_SEARCH
-#define DISABLE_SHOWS
-
-// Calendar display (commented = enabled)
-// #define DISABLE_CALENDAR
-```
+Use the PlatformIO buttons in the VS Code extension to build, upload and open the serial monitor (bottom bar / status bar). This provides GUI actions for "Build", "Upload" and "Monitor".
 
 ## Color Temperature Algorithm
 
@@ -124,9 +94,19 @@ This creates a natural, soothing display that adapts to your circadian rhythm.
 
 ## Calendar Integration
 
+You can enable it in the config file: `include/config.h`
+
+```cpp
+// Calendar display (uncomment to enable)
+// #define ENABLE_CALENDAR
+```
+
+
 If enabled, the device fetches calendar data from a configurable HTTP endpoint every 10 seconds when Spotify is idle. The endpoint should return plain text with events separated by newlines.
 
-Example calendar provider script in `docs/calendar.sh` (included).
+Example calendar provider script in `docs/calendar.example.sh` (included).
+
+This was done in another device to reduce the RAM usage in the ESP, in my case I added this script to my local server that runs Debian and Apatch configured with cgi-bin with some bash scripts. 
 
 ## File Structure
 
@@ -135,9 +115,7 @@ src/main.cpp              # Main firmware code
 include/config.h          # User configuration (keep private!)
 include/config.example.h  # Configuration template
 docs/                     # Documentation and helper scripts
-  ├── calendar.sh        # Calendar fetch script
-  ├── calendar.example.sh # Calendar script template
-  └── response_playing.json # Example Spotify API response
+  └── calendar.example.sh # Calendar script template
 platformio.ini           # PlatformIO configuration
 ```
 

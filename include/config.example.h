@@ -11,7 +11,8 @@
 #define DISABLE_SEARCH
 #define DISABLE_SHOWS
 
-// #define DISABLE_CALENDAR
+// Uncomment to enable calendar support:
+// #define ENABLE_CALENDAR 
 
 #define WF2_X1_R1_PIN 10 // in the smaller one the R B are changed
 #define WF2_X1_R2_PIN 11

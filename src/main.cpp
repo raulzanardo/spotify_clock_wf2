@@ -18,11 +18,10 @@
 
 // Function prototypes
 uint16_t getClockDigitColor(int hour, int minute);
-#ifndef DISABLE_CALENDAR
-String fetchCalendar();
-#endif
 void drawClock(const String &clockText, uint16_t bodyColor, int yOffset = 39);
-#ifndef DISABLE_CALENDAR
+
+#ifdef ENABLE_CALENDAR
+String fetchCalendar();
 int measureTextHeight(const String &text, const GFXfont *font);
 int countLines(const String &text);
 void drawCalendarLines(const String &calendarText, uint16_t bodyColor, int startY, int lineHeight);
@@ -40,7 +39,7 @@ MatrixPanel_I2S_DMA *dma_display = nullptr;
 String currentAlbumArtUrl = "";
 String previousAlbumArtUrl = " ";
 bool isSpotifyPlaying = false;
-#ifndef DISABLE_CALENDAR
+#ifdef ENABLE_CALENDAR
 unsigned long lastCalendarFetch = 0;
 String lastCalendarResponse = "";
 #endif
@@ -136,7 +135,7 @@ uint16_t getClockDigitColor(int hour, int minute)
     return (r << 11) | (g << 5) | b;
 }
 
-#ifndef DISABLE_CALENDAR
+#ifdef ENABLE_CALENDAR
 String fetchCalendar()
 {
     HTTPClient http;
@@ -530,7 +529,7 @@ void loop()
         uint16_t bodyColor = getClockDigitColor(timeinfo.tm_hour, timeinfo.tm_min);
         bool hasCalendar = false;
 
-#ifndef DISABLE_CALENDAR
+#ifdef ENABLE_CALENDAR
         unsigned long now = millis();
         if (now - lastCalendarFetch >= 10000 || lastCalendarFetch == 0)
         {
@@ -541,6 +540,7 @@ void loop()
         hasCalendar = lastCalendarResponse.length() > 0;
 #endif
 
+#ifdef ENABLE_CALENDAR
         if (hasCalendar)
         {
             const int panelHeight = PANEL_RES_Y;
@@ -567,6 +567,10 @@ void loop()
         {
             drawClock(datestring, bodyColor, 39);
         }
+#else
+        // Calendar feature disabled: just draw the clock centered at default Y
+        drawClock(datestring, bodyColor, 39);
+#endif
 
         currentAlbumArtUrl = "";
         previousAlbumArtUrl = " ";
