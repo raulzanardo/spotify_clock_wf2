@@ -1,3 +1,6 @@
+#ifndef SPOTIFY_CLOCK_CONFIG_H
+#define SPOTIFY_CLOCK_CONFIG_H
+
 #define DISABLE_AUDIOBOOKS
 #define DISABLE_CATEGORIES
 #define DISABLE_CHAPTERS
@@ -8,7 +11,7 @@
 #define DISABLE_SEARCH
 #define DISABLE_SHOWS
 
-//#define DISABLE_CALENDAR
+// #define DISABLE_CALENDAR
 
 #define WF2_X1_R1_PIN 10 // in the smaller one the R B are changed
 #define WF2_X1_R2_PIN 11
@@ -36,8 +39,8 @@
 
 #define WF2_PINS {WF2_X1_R1_PIN, WF2_X1_G1_PIN, WF2_X1_B1_PIN, WF2_X1_R2_PIN, WF2_X1_G2_PIN, WF2_X1_B2_PIN, WF2_A_PIN, WF2_B_PIN, WF2_C_PIN, WF2_D_PIN, WF2_X1_E_PIN, WF2_LAT_PIN, WF2_OE_PIN, WF2_CLK_PIN}
 
-#define WF2_BUTTON_TEST 17    // Test key button on PCB, 1=normal, 0=pressed
-#define WF2_LED_RUN_PIN 40    // Status LED on PCB
+#define WF2_BUTTON_TEST 17 // Test key button on PCB, 1=normal, 0=pressed
+#define WF2_LED_RUN_PIN 40 // Status LED on PCB
 #define WF2_USB_DM_PIN 19
 #define WF2_USB_DP_PIN 20
 
@@ -58,3 +61,5 @@
 
 #define ntpServer1 "pool.ntp.org"
 #define ntpServer2 "time.nist.gov"
+
+#endif // SPOTIFY_CLOCK_CONFIG_H
