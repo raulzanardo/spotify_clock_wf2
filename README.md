@@ -1,5 +1,7 @@
 # 🎵 Spotify Clock WF2
 
+
+
 A real-time display system that shows your currently playing Spotify track on a 64×64 LED matrix, with beautiful color-temperature-aware clock animations and optional calendar integration.
 
 ## Features
@@ -13,14 +15,20 @@ A real-time display system that shows your currently playing Spotify track on a 
 
 ## Hardware Requirements
 
-- **ESP32** microcontroller with USB support
-- **WF2 LED Matrix Driver** with specific pin configuration
-- **64×64 RGB LED Matrix Panel** (HUB75 interface)
-- WiFi connectivity
+**Recommended Board:** [HUIDU HD-WF2](https://www.aliexpress.com/w/wholesale-HD-WF2.html) — A compact ESP32-S3 board with built-in HUB75 LED matrix driver interface and GPIO breakout pins.
+
+**Compatible Alternatives:** Any ESP32-S3 microcontroller with enough available GPIO pins (minimum 20+ GPIOs) and USB support can work with this project by configuring the pin mapping in `include/config.h`.
+
+### Core Requirements
+
+- **ESP32-S3** microcontroller with USB support and 20+ available GPIO pins
+- **HUB75 LED Matrix Driver** (onboard on HD-WF2, or external daughterboard)
+- **64×64 RGB LED Matrix Panel** (HUB75 interface, standard module)
+- WiFi connectivity (built-in to ESP32-S3)
 
 ### Pin Configuration (WF2)
 
-The project uses a custom WF2 pin mapping for the HUB75 LED matrix driver:
+The project uses the WF2 pin mapping for the HUIDU HD-WF2 board's HUB75 LED matrix driver interface:
 
 ```
 Color Pins (Port X1):
@@ -182,6 +190,17 @@ Contributions welcome! Please ensure:
 
 ### External APIs
 - [Spotify Web API](https://developer.spotify.com/documentation/web-api) — Spotify playback state and metadata
+
+## Inspiration & Credits
+
+**Project inspired by:**
+- [64x64 RGB LED Matrix Album Art Display on Pi 3B+](https://www.reddit.com/r/raspberry_pi/comments/ziz4hk/my_64x64_rgb_led_matrix_album_art_display_pi_3b/) — Original concept by the Raspberry Pi community
+- [Live Spotify Album Art Display Tutorial](https://learn.sparkfun.com/tutorials/live-spotify-album-art-display/all) — SparkFun's guide to album art displays
+
+**Built with help from:**
+- [mrcodetastic's HD-WF1-WF2-LED-MatrixPanel-DMA](https://github.com/mrcodetastic/HD-WF1-WF2-LED-MatrixPanel-DMA) — Core driver library
+- [ESP32-HUB75-MatrixPanel-DMA discussion](https://github.com/mrcodetastic/ESP32-HUB75-MatrixPanel-DMA/issues/433) — Troubleshooting and optimization insights
+- [Eltopinovatif's HD-WF2 v7 implementation](https://github.com/Eltopinovatif/HD-WF2_v7-JWS-Assalaam) — Reference implementation for WF2 board
 
 ---
 
