@@ -7,9 +7,6 @@ A real-time display system that shows your currently playing Spotify track on a 
 - **Now Playing Display**: Shows album art from your currently playing Spotify track in full color on an LED matrix
 - **Adaptive Clock**: Displays time with color temperature that shifts throughout the day (warm at night, cool during day)
 - **Calendar Integration** (optional): Displays upcoming calendar events below the clock when idle
-- **WiFi Enabled**: Connects to your network for real-time Spotify and time data
-- **Spotify OAuth**: Secure authentication with Spotify API for playback state
-- **Compact Design**: Optimized for embedded systems (ESP32-based)
 
 ## Gallery
 
@@ -25,6 +22,8 @@ A real-time display system that shows your currently playing Spotify track on a 
 ## Hardware Requirements
 
 **Recommended Board:** [HUIDU HD-WF2](https://www.aliexpress.com/w/wholesale-HD-WF2.html) — A compact ESP32-S3 board with built-in HUB75 LED matrix driver interface and GPIO breakout pins.
+
+![HUIDU HD-WF2 Board](images/hd_wf2.jpg)
 
 **Compatible Alternatives:** Any ESP32-S3 microcontroller with enough available GPIO pins (minimum 20+ GPIOs) and USB support can work with this project by configuring the pin mapping in `include/config.h`.
 
@@ -92,6 +91,91 @@ Edit `include/config.h` and add:
 
 Use the PlatformIO buttons in the VS Code extension to build, upload and open the serial monitor (bottom bar / status bar). This provides GUI actions for "Build", "Upload" and "Monitor".
 
+## Configuration Reference
+
+### Network Settings
+```cpp
+#define WIFI_SSID "Your_Network_Name"
+#define WIFI_PASS "Your_Network_Password"
+#define PROJECTNAME "spotify_clock_wf2"  // mDNS hostname
+```
+
+### Spotify API Credentials
+```cpp
+#define CLIENT_ID "your_spotify_client_id"
+#define CLIENT_SECRET "your_spotify_client_secret"
+#define REFRESH_TOKEN "your_spotify_refresh_token"
+```
+**Note:** Keep these credentials private! Never commit to public repositories.
+
+### Time Settings
+```cpp
+#define TIME_ZONE "BRT3"              // Timezone (BRT3 = Brasília Time UTC-3)
+#define UTC_OFFSET_SECONDS -10800     // UTC offset in seconds
+#define ntpServer1 "pool.ntp.org"     // Primary NTP server
+#define ntpServer2 "time.nist.gov"    // Fallback NTP server
+```
+**Common timezone values:** `PST8PDT` (Pacific), `EST5EDT` (Eastern), `CST6CDT` (Central), `GMT0` (UTC), `CET-1CEST` (Central Europe)
+
+### Color Temperature Settings
+```cpp
+#define CONFIG_NIGHT_START_HOUR 22    // Night begins (0-23 format)
+#define CONFIG_NIGHT_END_HOUR 6       // Night ends
+#define CONFIG_NIGHT_TEMP 1500.0f     // Color temp at night (Kelvin)
+#define CONFIG_MIN_TEMP 2000.0f       // Minimum color temp (warm)
+#define CONFIG_MAX_TEMP 6500.0f       // Maximum color temp (cool)
+#define CONFIG_NIGHT_DIM_FACTOR 0.3f  // Brightness at night (0.0-1.0)
+```
+
+### Pin Configuration (HD-WF2 specific)
+```cpp
+// Color pins (Port X1)
+#define WF2_X1_R1_PIN 10
+#define WF2_X1_R2_PIN 11
+#define WF2_X1_G1_PIN 6
+#define WF2_X1_G2_PIN 7
+#define WF2_X1_B1_PIN 2
+#define WF2_X1_B2_PIN 3
+#define WF2_X1_E_PIN 21
+
+// Control pins
+#define WF2_A_PIN 39
+#define WF2_B_PIN 38
+#define WF2_C_PIN 37
+#define WF2_D_PIN 36
+#define WF2_OE_PIN 35
+#define WF2_CLK_PIN 34
+#define WF2_LAT_PIN 33
+```
+**For other boards:** Modify these pins to match your hardware connections.
+
+### Calendar Integration (Optional)
+```cpp
+#define ENABLE_CALENDAR                               // Uncomment to enable
+#define CALENDAR_URL "http://192.168.1.200/calendar"  // Your calendar endpoint
+```
+The calendar endpoint should return plain text with one event per line, e.g.:
+```
+Meeting at 2:00 PM
+Lunch with team
+Gym session 6:00 PM
+```
+
+### SpotifyEsp32 Feature Flags
+Disable unwanted Spotify API features to reduce memory usage:
+```cpp
+#define DISABLE_AUDIOBOOKS
+#define DISABLE_CATEGORIES
+#define DISABLE_CHAPTERS
+#define DISABLE_EPISODES
+#define DISABLE_GENRES
+#define DISABLE_MARKETS
+#define DISABLE_PLAYLISTS
+#define DISABLE_SEARCH
+#define DISABLE_SHOWS
+```
+Only the essential playback data is fetched by default.
+
 ## Color Temperature Algorithm
 
 The clock color shifts throughout the day based on Kelvin temperature:
@@ -130,26 +214,6 @@ docs/                     # Documentation and helper scripts
 platformio.ini           # PlatformIO configuration
 ```
 
-## Troubleshooting
-
-### Board Not Found
-Ensure your ESP32 is connected via USB. Check if you have the CH340 driver installed (common on budget ESP32 boards).
-
-### Spotify Authentication Fails
-- Verify CLIENT_ID and CLIENT_SECRET are correct
-- Check that your WiFi is connected (watch serial output)
-- Ensure the device can reach `api.spotify.com`
-
-### LED Matrix Not Lighting
-- Check all HUB75 pin connections match WF2 configuration
-- Verify matrix power supply is adequate (may need external 5V)
-- Try adjusting `setBrightness8()` in setup (currently set to 30)
-
-### No Calendar Events Showing
-- Verify CALENDAR_URL is correctly formatted in config.h
-- Check that your calendar endpoint returns proper newline-separated text
-- Ensure the device can reach the calendar URL (test from the same network)
-
 ## Performance Notes
 
 - Album art is downloaded and cached in LittleFS (reduces bandwidth)
@@ -159,7 +223,27 @@ Ensure your ESP32 is connected via USB. Check if you have the CH340 driver insta
 
 ## License
 
-[Add your license here]
+MIT License
+
+Copyright (c) 2025 raulzanardo
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ## Contributing
 

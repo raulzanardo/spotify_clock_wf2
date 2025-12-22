@@ -11,8 +11,9 @@
 #define DISABLE_SEARCH
 #define DISABLE_SHOWS
 
+// Enable calendar display by defining `ENABLE_CALENDAR` below.
 // Uncomment to enable calendar support:
-// #define ENABLE_CALENDAR 
+// #define ENABLE_CALENDAR
 
 #define WF2_X1_R1_PIN 10 // in the smaller one the R B are changed
 #define WF2_X1_R2_PIN 11
@@ -45,10 +46,6 @@
 #define WF2_USB_DM_PIN 19
 #define WF2_USB_DP_PIN 20
 
-#define PANEL_RES_X 64 // Number of pixels wide of each INDIVIDUAL panel module.
-#define PANEL_RES_Y 64 // Number of pixels tall of each INDIVIDUAL panel module.
-#define PANEL_CHAIN 1  // Total number of panels chained one to another
-
 #define WIFI_SSID ""
 #define WIFI_PASS ""
 
@@ -60,7 +57,29 @@
 #define CLIENT_SECRET ""
 #define REFRESH_TOKEN ""
 
+// ===== TIME SETTINGS =====
 #define ntpServer1 "pool.ntp.org"
 #define ntpServer2 "time.nist.gov"
+
+// Timezone: BRT3 is Brasília Time (UTC-3, no DST)
+// Other examples: PST8PDT, EST5EDT, CST6CDT, GMT0, CET-1CEST, etc.
+#define TIME_ZONE "BRT3"
+
+// UTC Offset in seconds (BRT3 = UTC-3 = -10800 seconds)
+// Can also be set as: UTC offset hours * 3600 + minutes * 60
+#define UTC_OFFSET_SECONDS -10800
+
+// ===== COLOR TEMPERATURE SETTINGS =====
+// Night time hour range (0-23 format)
+#define CONFIG_NIGHT_START_HOUR 22  // 10 PM
+#define CONFIG_NIGHT_END_HOUR 6     // 6 AM
+
+// Color temperature in Kelvin
+#define CONFIG_NIGHT_TEMP 1500.0f    // Very warm light for night
+#define CONFIG_MIN_TEMP 2000.0f      // Warm light (sunset/sunrise)
+#define CONFIG_MAX_TEMP 6500.0f      // Cool light (midday)
+
+// Nighttime brightness dimming factor (0.0 to 1.0)
+#define CONFIG_NIGHT_DIM_FACTOR 0.3f
 
 #endif // SPOTIFY_CLOCK_CONFIG_H
