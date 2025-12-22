@@ -59,13 +59,13 @@ uint16_t getClockDigitColor(int hour, int minute)
     float timeOfDay = hour + minute / 60.0f;
 
     // Define color temperature range (in Kelvin)
-    const float NIGHT_TEMP = 1500.0f; // Very warm light for night
-    const float MIN_TEMP = 2000.0f;   // Warm light (sunset/sunrise)
-    const float MAX_TEMP = 6500.0f;   // Cool light (midday)
+    const float NIGHT_TEMP = CONFIG_NIGHT_TEMP; // Very warm light for night
+    const float MIN_TEMP = CONFIG_MIN_TEMP;   // Warm light (sunset/sunrise)
+    const float MAX_TEMP = CONFIG_MAX_TEMP;   // Cool light (midday)
 
     // Calculate color temperature
     float temp;
-    if (timeOfDay < 6 || timeOfDay >= 22)
+    if (timeOfDay < CONFIG_NIGHT_END_HOUR || timeOfDay >= CONFIG_NIGHT_START_HOUR)
     {
         // Night time (10 PM to 6 AM)
         temp = NIGHT_TEMP;
@@ -119,9 +119,9 @@ uint16_t getClockDigitColor(int hour, int minute)
     blue = std::min(255.0f, std::max(0.0f, blue));
 
     // Dim the color at night
-    if (timeOfDay < 6 || timeOfDay >= 22)
+    if (timeOfDay < CONFIG_NIGHT_END_HOUR || timeOfDay >= CONFIG_NIGHT_START_HOUR)
     {
-        float dimFactor = 0.3f; // Adjust this value to change nighttime brightness
+        float dimFactor = CONFIG_NIGHT_DIM_FACTOR; // Adjust this value to change nighttime brightness
         red *= dimFactor;
         green *= dimFactor;
         blue *= dimFactor;
@@ -389,8 +389,8 @@ void setup()
     }
 
     // Initialize NTPC
-    setenv("TZ", "BRT3", 1);                       // Set timezone to Brasília Time
-    configTime(-10800, 0, ntpServer1, ntpServer2); // Init and get the time
+    setenv("TZ", TIME_ZONE, 1);                       // Set timezone
+    configTime(UTC_OFFSET_SECONDS, 0, ntpServer1, ntpServer2); // Init and get the time
 
     if (!getLocalTime(&timeinfo))
     {

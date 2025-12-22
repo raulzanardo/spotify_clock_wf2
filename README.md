@@ -11,6 +11,17 @@ A real-time display system that shows your currently playing Spotify track on a 
 - **Spotify OAuth**: Secure authentication with Spotify API for playback state
 - **Compact Design**: Optimized for embedded systems (ESP32-based)
 
+## Gallery
+
+### Clock Display
+![Clock Display](images/clock.png)
+
+### Album Art Display
+![Album Art Display](images/album_art.png)
+
+### Calendar Integration
+![Calendar Display](images/calendar.png)
+
 ## Hardware Requirements
 
 **Recommended Board:** [HUIDU HD-WF2](https://www.aliexpress.com/w/wholesale-HD-WF2.html) — A compact ESP32-S3 board with built-in HUB75 LED matrix driver interface and GPIO breakout pins.
