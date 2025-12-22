@@ -1,4 +1,4 @@
-# 🎵 Spotify Clock WF2
+# Spotify Clock WF2
 
 A real-time display system that shows your currently playing Spotify track on a 64×64 LED matrix, with color-temperature-aware clock animations and optional calendar integration.
 
@@ -277,4 +277,4 @@ Contributions welcome! Please ensure:
 
 ---
 
-**Enjoy your Spotify Clock!** 🎵✨
+**Enjoy your Spotify Clock!**
