@@ -46,6 +46,9 @@
 #define WF2_USB_DM_PIN 19
 #define WF2_USB_DP_PIN 20
 
+#define PANEL_RES_X 64
+#define PANEL_RES_Y 64
+
 #define WIFI_SSID ""
 #define WIFI_PASS ""
 
