@@ -189,6 +189,9 @@ The clock color shifts throughout the day based on Kelvin temperature:
 
 This creates a natural, soothing display that adapts to your circadian rhythm.
 
+![Color Temperature Graph](images/color_temp_graph.png)
+
+
 ## Calendar Integration
 
 You can enable it in the config file: `include/config.h`
