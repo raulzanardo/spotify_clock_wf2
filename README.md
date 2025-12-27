@@ -32,6 +32,7 @@ A real-time display system that shows your currently playing Spotify track on a 
 - **ESP32-S3** microcontroller with USB support and 20+ available GPIO pins
 - **HUB75 LED Matrix Driver** (onboard on HD-WF2, or external daughterboard)
 - **64×64 RGB LED Matrix Panel** (HUB75 interface, standard module that use nornal shift-registers, the S-PWM are not supported by the lib yet)
+ - **64×64 RGB LED Matrix Panel** (HUB75 interface, standard module that uses normal shift-registers; S-PWM panels are not supported by the library yet)
 - WiFi connectivity (built-in to ESP32-S3)
 
 ### Pin Configuration (WF2)
@@ -83,7 +84,8 @@ cp include/config.example.h include/config.h
 Edit `include/config.h` and add:
 
 - **CLIENT_ID** & **CLIENT_SECRET**: Register your app at [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
-- **REFRESH_TOKEN**: Obtained after first successful authentication (the device will display instructions)
+- **REFRESH_TOKEN**: Obtained after first successful authentication (the device will prompt it in the serial port any doupt you can check the tutorial in the [SpotifyEsp32](https://github.com/FinianLandes/SpotifyEsp32) library readme)
+ - **REFRESH_TOKEN**: Obtained after first successful authentication (the device will print progress to the serial port; if you have any doubts, check the tutorial in the [SpotifyEsp32](https://github.com/FinianLandes/SpotifyEsp32) library README).
 - **WIFI_SSID** & **WIFI_PASS**: Your WiFi network credentials
 - **CALENDAR_URL** (optional): HTTP endpoint that returns newline-separated calendar events
 
@@ -201,7 +203,7 @@ If enabled, the device fetches calendar data from a configurable HTTP endpoint e
 
 Example calendar provider script in `docs/calendar.example.sh` (included).
 
-This was done in another device to reduce the RAM usage in the ESP, in my case I added this script to my local server that runs Debian and Apatch configured with cgi-bin with some bash scripts. 
+I used this approach on another device to reduce RAM usage on the ESP; I added this script to a local Debian server running Apache with CGI-enabled bash scripts.
 
 ## File Structure
 
@@ -259,7 +261,7 @@ Contributions welcome! Please ensure:
 - [JPEGDEC](https://github.com/bitbank2/JPEGDEC) — JPEG decoder for embedded systems
 
 ### API & Connectivity
-- [SpotifyEsp32](https://github.com/jetcitycomet/SpotifyEsp32) — Spotify API client library for ESP32
+- [SpotifyEsp32](https://github.com/FinianLandes/SpotifyEsp32) — Spotify API client library for ESP32
 
 ### External APIs
 - [Spotify Web API](https://developer.spotify.com/documentation/web-api) — Spotify playback state and metadata
