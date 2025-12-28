@@ -32,7 +32,6 @@ A real-time display system that shows your currently playing Spotify track on a 
 - **ESP32-S3** microcontroller with USB support and 20+ available GPIO pins
 - **HUB75 LED Matrix Driver** (onboard on HD-WF2, or external daughterboard)
 - **64×64 RGB LED Matrix Panel** (HUB75 interface, standard module that use nornal shift-registers, the S-PWM are not supported by the lib yet)
- - **64×64 RGB LED Matrix Panel** (HUB75 interface, standard module that uses normal shift-registers; S-PWM panels are not supported by the library yet)
 - WiFi connectivity (built-in to ESP32-S3)
 
 ### Pin Configuration (WF2)
@@ -85,7 +84,6 @@ Edit `include/config.h` and add:
 
 - **CLIENT_ID** & **CLIENT_SECRET**: Register your app at [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
 - **REFRESH_TOKEN**: Obtained after first successful authentication (the device will prompt it in the serial port any doupt you can check the tutorial in the [SpotifyEsp32](https://github.com/FinianLandes/SpotifyEsp32) library readme)
- - **REFRESH_TOKEN**: Obtained after first successful authentication (the device will print progress to the serial port; if you have any doubts, check the tutorial in the [SpotifyEsp32](https://github.com/FinianLandes/SpotifyEsp32) library README).
 - **WIFI_SSID** & **WIFI_PASS**: Your WiFi network credentials
 - **CALENDAR_URL** (optional): HTTP endpoint that returns newline-separated calendar events
 
