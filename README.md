@@ -10,7 +10,7 @@ A real-time display system that shows your currently playing Spotify track on a 
 
 ## Gallery
 
-This one was connected to a 64x64 2mmm pitch smd1515 led matrix the I got from [Aliexpress](https://pt.aliexpress.com/item/1005001950053920.html?spm=a2g0o.order_list.order_list_main.127.1e9acaa4T398cf&gatewayAdapt=glo2bra).
+This one was connected to a 64x64 2mmm pitch smd1515 led matrix the I got from [Aliexpress](https://pt.aliexpress.com/item/1005001950053920.html?spm=a2g0o.order_list.order_list_main.127.1e9acaa4T398cf&gatewayAdapt=glo2bra). This one has both Red and Blue pins swaps so the config must be changed if you using another normal RGB led matrix. 
 
 ### Clock Display
 ![Clock Display](images/clock.png)
