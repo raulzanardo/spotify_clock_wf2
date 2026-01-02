@@ -14,11 +14,12 @@
 #include <Fonts/Picopixel.h>
 #include <Fonts/FreeSans12pt7b.h>
 
+#include <color_tools.h>
+
 #define countof(x) (sizeof(x) / sizeof(x[0]))
 #define SETUP_LOG_LINES 8
 
 // Function prototypes
-uint16_t getClockDigitColor(int hour, int minute);
 void drawClock(const String &clockText, uint16_t bodyColor, int yOffset = 39);
 bool hasInternetConnectivity();
 void ensureSpotifyReady();
@@ -35,7 +36,6 @@ int downloadImage(const String &imageUrl);
 int drawMCU(JPEGDRAW *pDraw);
 void drawJPEG(const char *filename, int xpos, int ypos);
 
-///////////////////////////////////////////////////////////////////////////////////
 // MatrixPanel_I2S_DMA dma_display;
 MatrixPanel_I2S_DMA *dma_display = nullptr;
 
@@ -50,92 +50,11 @@ int setupLogCount = 0;
 unsigned long lastCalendarFetch = 0;
 String lastCalendarResponse = "";
 #endif
-///////////////////////////////////////////////////////////////////////////////////
 
 Spotify sp(CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN, true);
 JPEGDEC jpeg;
 
 struct tm timeinfo;
-///////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////////
-uint16_t getClockDigitColor(int hour, int minute)
-{
-
-    // Calculate the time as a float from 0 to 24
-    float timeOfDay = hour + minute / 60.0f;
-
-    // Calculate color temperature
-    float temp;
-    if (timeOfDay < CONFIG_NIGHT_END_HOUR || timeOfDay >= CONFIG_NIGHT_START_HOUR)
-    {
-        // Night time (10 PM to 6 AM)
-        temp = NIGHT_TEMP;
-    }
-    else if (timeOfDay < 12)
-    {
-        // Morning: temperature increases
-        temp = MIN_TEMP + (MAX_TEMP - MIN_TEMP) * ((timeOfDay - 6) / 6.0f);
-    }
-    else if (timeOfDay < 18)
-    {
-        // Afternoon: temperature decreases
-        temp = MAX_TEMP - (MAX_TEMP - MIN_TEMP) * ((timeOfDay - 12) / 6.0f);
-    }
-    else
-    {
-        // Evening: temperature decreases to night temp
-        temp = MIN_TEMP - (MIN_TEMP - NIGHT_TEMP) * ((timeOfDay - 18) / 4.0f);
-    }
-
-    // Convert temperature to RGB
-    float red, green, blue;
-
-    // Approximation of RGB values from color temperature
-    // Based on a simplified version of the algorithm by Tanner Helland
-    temp = temp / 100;
-
-    if (temp <= 66)
-    {
-        red = 255;
-        green = 99.4708025861f * std::log(temp) - 161.1195681661f;
-        if (temp <= 19)
-        {
-            blue = 0;
-        }
-        else
-        {
-            blue = 138.5177312231f * std::log(temp - 10) - 305.0447927307f;
-        }
-    }
-    else
-    {
-        red = 329.698727446f * std::pow(temp - 60, -0.1332047592f);
-        green = 288.1221695283f * std::pow(temp - 60, -0.0755148492f);
-        blue = 255;
-    }
-
-    // Clamp RGB values to 0-255 range
-    red = std::min(255.0f, std::max(0.0f, red));
-    green = std::min(255.0f, std::max(0.0f, green));
-    blue = std::min(255.0f, std::max(0.0f, blue));
-
-    // Dim the color at night
-    if (timeOfDay < CONFIG_NIGHT_END_HOUR || timeOfDay >= CONFIG_NIGHT_START_HOUR)
-    {
-        float dimFactor = CONFIG_NIGHT_DIM_FACTOR; // Adjust this value to change nighttime brightness
-        red *= dimFactor;
-        green *= dimFactor;
-        blue *= dimFactor;
-    }
-
-    // Convert to RGB565
-    uint16_t r = static_cast<uint16_t>(red * 31 / 255);
-    uint16_t g = static_cast<uint16_t>(green * 63 / 255);
-    uint16_t b = static_cast<uint16_t>(blue * 31 / 255);
-
-    return (r << 11) | (g << 5) | b;
-}
 
 #ifdef ENABLE_CALENDAR
 String fetchCalendar()
@@ -519,7 +438,7 @@ void setup()
     }
 
     // Initialize NTPC
-    setenv("TZ", TIME_ZONE, 1);                       // Set timezone
+    setenv("TZ", TIME_ZONE, 1);                                // Set timezone
     configTime(UTC_OFFSET_SECONDS, 0, ntpServer1, ntpServer2); // Init and get the time
 
     if (!getLocalTime(&timeinfo))
@@ -538,7 +457,6 @@ void setup()
 void loop()
 {
     dma_display->clearScreen();
-    //-------------------------------------------------------------------------------
     ensureSpotifyReady();
 
     if (!spotifyAuthenticated)
@@ -706,7 +624,6 @@ void loop()
         currentAlbumArtUrl = "";
         previousAlbumArtUrl = " ";
     }
-    //-------------------------------------------------------------------------------
     dma_display->flipDMABuffer();
 
     delay(4000);
