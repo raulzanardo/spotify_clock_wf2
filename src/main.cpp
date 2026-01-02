@@ -65,11 +65,6 @@ uint16_t getClockDigitColor(int hour, int minute)
     // Calculate the time as a float from 0 to 24
     float timeOfDay = hour + minute / 60.0f;
 
-    // Define color temperature range (in Kelvin)
-    const float NIGHT_TEMP = CONFIG_NIGHT_TEMP; // Very warm light for night
-    const float MIN_TEMP = CONFIG_MIN_TEMP;   // Warm light (sunset/sunrise)
-    const float MAX_TEMP = CONFIG_MAX_TEMP;   // Cool light (midday)
-
     // Calculate color temperature
     float temp;
     if (timeOfDay < CONFIG_NIGHT_END_HOUR || timeOfDay >= CONFIG_NIGHT_START_HOUR)
