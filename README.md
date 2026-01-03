@@ -285,7 +285,7 @@ Contributions welcome! Please ensure:
 
 ### My related projects
 
-- [spotify_clock_wf2](https://github.com/raulzanardo/spotify_clock_mps3) — Another Spotify clock project with different hardware/approach.
+- [spotify_clock_mps3](https://github.com/raulzanardo/spotify_clock_mps3) — Another Spotify clock project with different hardware/approach.
 
 ---
 
