@@ -256,7 +256,7 @@ void drawSetupLogs()
     dma_display->setTextWrap(false);
     dma_display->setTextColor(0xFFFF); // white
 
-    const int lineHeight = 8;
+    const int lineHeight = 7;
     for (int i = 0; i < setupLogCount; ++i)
     {
         int y = (i + 1) * lineHeight;
