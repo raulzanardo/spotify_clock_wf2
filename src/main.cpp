@@ -509,6 +509,13 @@ void loop()
             isSpotifyPlaying = false;
         }
 
+        if (currentState.status_code == 204)
+        {
+            USBSerial.println(F("No Content - Spotify not playing"));
+
+            isSpotifyPlaying = false;
+        }
+
         if (currentState.status_code == 401)
         {
             USBSerial.println(F("The access token expired"));
