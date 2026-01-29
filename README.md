@@ -2,6 +2,21 @@
 
 A real-time display system that shows your currently playing Spotify track on a 64×64 LED matrix, with color-temperature-aware clock animations and optional calendar integration.
 
+> **⚠️ Disclaimer: Spotify API Project Creation Currently Unavailable**
+>
+> As of late January 2026, there is no official date for when new project creation will return. Spotify has not provided a specific timeline or estimated time of arrival (ETA) for restoring this feature.
+> The current situation as of January 29, 2026, includes the following:
+>
+> - **Official Status**: Spotify staff confirmed they are "investigating" and that "new integrations are currently on hold" to improve reliability and performance.
+> - **Duration of Hold**: The "Create App" button has been disabled for many users since late December 2025.
+> - **Ongoing Review**: In a community update on January 28, 2026, Spotify reiterated that the issue is "on their radar" but explicitly stated they cannot commit to a specific timeframe for a fix.
+>
+> **Temporary Workarounds**  
+> If you need immediate access for a project or dissertation, consider these options reported by the developer community:
+>
+> - **Reuse Old Client IDs**: If you or a teammate have an existing application in the Spotify Developer Dashboard, you can continue to use its Client ID and Client Secret for new local development by simply updating the Redirect URIs.
+> - **Request Access from Others**: Some developers on platforms like the Spotify API Subreddit have offered to add collaborators or share unused "Development Mode" apps for urgent academic use.
+
 ## Features
 
 - **Now Playing Display**: Shows album art from your currently playing Spotify track in full color on an LED matrix
@@ -10,15 +25,18 @@ A real-time display system that shows your currently playing Spotify track on a 
 
 ## Gallery
 
-This one was connected to a 64x64 2mmm pitch smd1515 led matrix the I got from [Aliexpress](https://pt.aliexpress.com/item/1005001950053920.html?spm=a2g0o.order_list.order_list_main.127.1e9acaa4T398cf&gatewayAdapt=glo2bra). This one has both Red and Blue pins swaps so the config must be changed if you using another normal RGB led matrix. 
+This one was connected to a 64x64 2mmm pitch smd1515 led matrix the I got from [Aliexpress](https://pt.aliexpress.com/item/1005001950053920.html?spm=a2g0o.order_list.order_list_main.127.1e9acaa4T398cf&gatewayAdapt=glo2bra). This one has both Red and Blue pins swaps so the config must be changed if you using another normal RGB led matrix.
 
 ### Clock Display
+
 ![Clock Display](images/clock.png)
 
 ### Album Art Display
+
 ![Album Art Display](images/album_art.png)
 
 ### Calendar Integration
+
 ![Calendar Display](images/calendar.png)
 
 ## Hardware Requirements
@@ -96,6 +114,7 @@ Use the PlatformIO buttons in the VS Code extension to build, upload and open th
 ## Configuration Reference
 
 ### Network Settings
+
 ```cpp
 #define WIFI_SSID "Your_Network_Name"
 #define WIFI_PASS "Your_Network_Password"
@@ -103,23 +122,28 @@ Use the PlatformIO buttons in the VS Code extension to build, upload and open th
 ```
 
 ### Spotify API Credentials
+
 ```cpp
 #define CLIENT_ID "your_spotify_client_id"
 #define CLIENT_SECRET "your_spotify_client_secret"
 #define REFRESH_TOKEN "your_spotify_refresh_token"
 ```
+
 **Note:** Keep these credentials private! Never commit to public repositories.
 
 ### Time Settings
+
 ```cpp
 #define TIME_ZONE "BRT3"              // Timezone (BRT3 = Brasília Time UTC-3)
 #define UTC_OFFSET_SECONDS -10800     // UTC offset in seconds
 #define ntpServer1 "pool.ntp.org"     // Primary NTP server
 #define ntpServer2 "time.nist.gov"    // Fallback NTP server
 ```
+
 **Common timezone values:** `PST8PDT` (Pacific), `EST5EDT` (Eastern), `CST6CDT` (Central), `GMT0` (UTC), `CET-1CEST` (Central Europe)
 
 ### Color Temperature Settings
+
 ```cpp
 #define CONFIG_NIGHT_START_HOUR 22    // Night begins (0-23 format)
 #define CONFIG_NIGHT_END_HOUR 6       // Night ends
@@ -130,6 +154,7 @@ Use the PlatformIO buttons in the VS Code extension to build, upload and open th
 ```
 
 ### Pin Configuration (HD-WF2 specific)
+
 ```cpp
 // Color pins (Port X1)
 #define WF2_X1_R1_PIN 10
@@ -149,14 +174,18 @@ Use the PlatformIO buttons in the VS Code extension to build, upload and open th
 #define WF2_CLK_PIN 34
 #define WF2_LAT_PIN 33
 ```
+
 **For other boards:** Modify these pins to match your hardware connections.
 
 ### Calendar Integration (Optional)
+
 ```cpp
 #define ENABLE_CALENDAR                               // Uncomment to enable
 #define CALENDAR_URL "http://192.168.1.200/calendar"  // Your calendar endpoint
 ```
+
 The calendar endpoint should return plain text with one event per line, e.g.:
+
 ```
 Meeting at 2:00 PM
 Lunch with team
@@ -164,7 +193,9 @@ Gym session 6:00 PM
 ```
 
 ### SpotifyEsp32 Feature Flags
+
 Disable unwanted Spotify API features to reduce memory usage:
+
 ```cpp
 #define DISABLE_AUDIOBOOKS
 #define DISABLE_CATEGORIES
@@ -176,6 +207,7 @@ Disable unwanted Spotify API features to reduce memory usage:
 #define DISABLE_SEARCH
 #define DISABLE_SHOWS
 ```
+
 Only the essential playback data is fetched by default.
 
 ## Color Temperature Algorithm
@@ -191,7 +223,6 @@ This creates a natural, soothing display that adapts to your circadian rhythm.
 
 ![Color Temperature Graph](images/color_temp_graph.png)
 
-
 ## Calendar Integration
 
 You can enable it in the config file: `include/config.h`
@@ -200,7 +231,6 @@ You can enable it in the config file: `include/config.h`
 // Calendar display (uncomment to enable)
 // #define ENABLE_CALENDAR
 ```
-
 
 If enabled, the device fetches calendar data from a configurable HTTP endpoint every 10 seconds when Spotify is idle. The endpoint should return plain text with events separated by newlines.
 
@@ -253,6 +283,7 @@ SOFTWARE.
 ## Contributing
 
 Contributions welcome! Please ensure:
+
 - No secrets are committed (use `include/config.h` locally)
 - Code follows existing style (const correctness, USBSerial debugging)
 - Changes are tested on real hardware before PR
@@ -260,23 +291,28 @@ Contributions welcome! Please ensure:
 ## Libraries & Resources
 
 ### Display & Graphics
+
 - [ESP32-HUB75-MatrixPanel-I2S-DMA](https://github.com/mrfaptastic/ESP32-HUB75-MatrixPanel-I2S-DMA) — HUB75 LED matrix driver library
 - [JPEGDEC](https://github.com/bitbank2/JPEGDEC) — JPEG decoder for embedded systems
 
 ### API & Connectivity
+
 - [SpotifyEsp32](https://github.com/FinianLandes/SpotifyEsp32) — Spotify API client library for ESP32
 
 ### External APIs
+
 - [Spotify Web API](https://developer.spotify.com/documentation/web-api) — Spotify playback state and metadata
 
 ## Inspiration & Credits
 
 **Project inspired by:**
+
 - [64x64 RGB LED Matrix Album Art Display on Pi 3B+](https://www.reddit.com/r/raspberry_pi/comments/ziz4hk/my_64x64_rgb_led_matrix_album_art_display_pi_3b/) — Original concept by the Raspberry Pi community
 - [Live Spotify Album Art Display Tutorial](https://learn.sparkfun.com/tutorials/live-spotify-album-art-display/all) — SparkFun's guide to album art displays
 - [Tuneshine](https://www.tuneshine.rocks/) - A full product that displays album art from spotify, apple music, sonos and last.fm.
 
 **Built with help from:**
+
 - [mrcodetastic's HD-WF1-WF2-LED-MatrixPanel-DMA](https://github.com/mrcodetastic/HD-WF1-WF2-LED-MatrixPanel-DMA) — Core driver library
 - [ESP32-HUB75-MatrixPanel-DMA discussion](https://github.com/mrcodetastic/ESP32-HUB75-MatrixPanel-DMA/issues/433) — Troubleshooting and optimization insights
 - [Eltopinovatif's HD-WF2 v7 implementation](https://github.com/Eltopinovatif/HD-WF2_v7-JWS-Assalaam) — Reference implementation for WF2 board

@@ -74,13 +74,13 @@
 
 // ===== COLOR TEMPERATURE SETTINGS =====
 // Night time hour range (0-23 format)
-#define CONFIG_NIGHT_START_HOUR 22  // 10 PM
-#define CONFIG_NIGHT_END_HOUR 6     // 6 AM
+#define CONFIG_NIGHT_START_HOUR 22 // 10 PM
+#define CONFIG_NIGHT_END_HOUR 6    // 6 AM
 
-// Color temperature in Kelvin
-#define CONFIG_NIGHT_TEMP 1500.0f    // Very warm light for night
-#define CONFIG_MIN_TEMP 2000.0f      // Warm light (sunset/sunrise)
-#define CONFIG_MAX_TEMP 6500.0f      // Cool light (midday)
+// Color temperature settings for clock digits (in Kelvin)
+#define NIGHT_TEMP 2000.0f // Warm light for night
+#define MIN_TEMP 2500.0f   // Slightly warmer minimum for São Paulo's climate
+#define MAX_TEMP 7000.0f   // Slightly cooler maximum for brighter days
 
 // Nighttime brightness dimming factor (0.0 to 1.0)
 #define CONFIG_NIGHT_DIM_FACTOR 0.3f
