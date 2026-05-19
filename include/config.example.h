@@ -75,7 +75,7 @@
 // ===== COLOR TEMPERATURE SETTINGS =====
 // Night time hour range (0-23 format)
 #define CONFIG_NIGHT_START_HOUR 22 // 10 PM
-#define CONFIG_NIGHT_END_HOUR 6    // 6 AM
+#define CONFIG_NIGHT_END_HOUR 7    // 7 AM
 
 // Color temperature settings for clock digits (in Kelvin)
 #define NIGHT_TEMP 2000.0f // Warm light for night
