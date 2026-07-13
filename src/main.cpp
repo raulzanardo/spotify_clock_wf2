@@ -23,6 +23,7 @@
 void drawClock(const String &clockText, uint16_t bodyColor, int yOffset = 39);
 bool hasInternetConnectivity();
 void ensureSpotifyReady();
+response fetchCurrentSpotifyState();
 void addSetupLog(const String &msg);
 void drawSetupLogs();
 
@@ -225,6 +226,11 @@ void ensureSpotifyReady()
         spotifyAuthenticated = true;
         USBSerial.println(F("Spotify already authenticated"));
     }
+}
+
+response fetchCurrentSpotifyState()
+{
+    return sp.get_currently_playing_track();
 }
 
 void addSetupLog(const String &msg)
@@ -485,7 +491,7 @@ void loop()
 
     USBSerial.println(F("Checking Spotify state"));
 
-    response currentState = sp.currently_playing();
+    response currentState = fetchCurrentSpotifyState();
     USBSerial.println();
     USBSerial.println(currentState.reply.as<String>());
     USBSerial.println();
@@ -522,7 +528,7 @@ void loop()
             USBSerial.println(F("The access token expired"));
 
             sp.get_access_token();
-            currentState = sp.currently_playing();
+            currentState = fetchCurrentSpotifyState();
         }
 
         if (currentState.status_code == 403)
@@ -538,7 +544,7 @@ void loop()
         if (currentState.reply["message"].as<String>().equals("Timeout receiving headers"))
         {
             USBSerial.println(F("Timeout receiving headers"));
-            currentState = sp.currently_playing();
+            currentState = fetchCurrentSpotifyState();
         }
     }
 
