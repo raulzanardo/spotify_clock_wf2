@@ -444,9 +444,10 @@ void setup()
     }
 
     // Initialize NTPC
-    setenv("TZ", TIME_ZONE, 1);                                // Set timezone
     configTime(UTC_OFFSET_SECONDS, 0, ntpServer1, ntpServer2); // Init and get the time
-
+    setenv("TZ", TIME_ZONE, 1);                                // Set timezone
+    tzset();
+    
     if (!getLocalTime(&timeinfo))
     {
         USBSerial.println(F("Failed to obtain time"));
